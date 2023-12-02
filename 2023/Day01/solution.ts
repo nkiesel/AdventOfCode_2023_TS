@@ -77,6 +77,6 @@ describe('Day 1', () => {
 /*
 This was converted from an earlier Kotlin version that also used regexes. The trick for finding the last match I
 use here is to reverse both the line and the pattern and then use the first match (which again must be reversed).
-I was surprised that this seems to be neither available in standard libs nor in Lodash. Thus, added the recommended
-implementation found by googling as a String prototype function.
+I was surprised that `String.reversed()` is neither available in standard libs nor in Lodash. Thus, added the
+recommended implementation found by googling as a String prototype function.
 */
