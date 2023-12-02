@@ -4,9 +4,16 @@ import * as path from 'path'
 export {}
 
 declare global {
+    interface String {
+        reversed(): string
+    }
     interface Array<T> {
         chunkedBy(predicate: (t: T, index?: number) => boolean): T[][]
     }
+}
+
+String.prototype.reversed = function (): string {
+    return this.split("").reverse().join("")
 }
 
 Array.prototype.chunkedBy = function <T>(predicate: (item: T, index?: number) => boolean): T[][] {
