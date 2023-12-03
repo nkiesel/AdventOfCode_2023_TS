@@ -11,8 +11,8 @@ Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
 type Cube = 'red' | 'green' | 'blue'
 
 class Reveal {
-    red: number = 0;
-    green: number = 0;
+    red: number = 0
+    green: number = 0
     blue: number = 0
 }
 
@@ -67,3 +67,9 @@ describe('Day 2', () => {
         expect(part2(input)).toBe(71220)
     })
 })
+
+/*
+I was trying _not_ to use classes in TS because most of our corporate TS code also does not use classes. But then
+I could not get the default values for Reveal set to 0 when using "type" or "interface".  Will be interesting to see
+better TS solutions.
+*/
