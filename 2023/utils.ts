@@ -32,3 +32,6 @@ export const readData = (dir: string): string[] => fs
     .readFileSync(path.join(dir, 'input'), 'utf8')
     .split('\n')
     .slice(0, -1)
+
+export const add = (acc: number, n: number): number => acc + n
+export const toInt = (n: string): number => parseInt(n, 10)

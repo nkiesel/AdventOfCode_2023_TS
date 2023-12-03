@@ -1,4 +1,4 @@
-import {readData} from '../utils'
+import {add, readData, toInt} from '../utils'
 
 const sample: string[] = `
 Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
@@ -24,13 +24,13 @@ interface Game {
 const parse = (input: string[]): Game[] =>
     input.map((line) => {
         const parts = line.split(/[:;]/)
-        const id = parseInt(parts[0].split(' ')[1], 10)
+        const id = toInt(parts[0].split(' ')[1])
         const reveals: Reveal[] = []
         for (const p of parts.slice(1)) {
-            const draws = p.match(/[\d\w]+/g)
+            const draws = p.match(/\w+/g)
             const r = new Reveal()
             for (let i = 0; i < draws.length; i += 2) {
-                r[draws[i + 1] as Cube] = parseInt(draws[i], 10)
+                r[draws[i + 1] as Cube] = toInt(draws[i])
             }
             reveals.push(r)
         }
@@ -41,7 +41,7 @@ function part1(input: string[]): number {
     return parse(input)
         .filter((g) => g.reveals.every((r) => r.red <= 12 && r.green <= 13 && r.blue <= 14))
         .map((g) => g.id)
-        .reduce((acc, id) => acc + id, 0)
+        .reduce(add)
 }
 
 function part2(input: string[]): number {
@@ -51,7 +51,7 @@ function part2(input: string[]): number {
             * Math.max(...g.reveals.map((r) => r.green))
             * Math.max(...g.reveals.map((r) => r.blue))
         )
-        .reduce((acc, id) => acc + id, 0)
+        .reduce(add)
 }
 
 describe('Day 2', () => {
