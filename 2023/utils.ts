@@ -34,4 +34,5 @@ export const readData = (dir: string): string[] => fs
     .slice(0, -1)
 
 export const add = (acc: number, n: number): number => acc + n
+export const times = (acc: number, n: number): number => acc * n
 export const toInt = (n: string): number => parseInt(n, 10)
