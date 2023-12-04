@@ -2,6 +2,6 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  testMatch: ['**/202[23]/**/*.[jt]s?(x)'],
+  testMatch: ['**/202[23]/Day**/solution.ts'],
   testPathIgnorePatterns: ["/node_modules/", "utils.ts"]
 }
