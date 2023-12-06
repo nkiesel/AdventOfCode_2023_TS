@@ -6,6 +6,8 @@ export {}
 declare global {
     interface String {
         reversed(): string
+        numbers(): number[]
+        toNumber(): number
     }
     interface Array<T> {
         chunkedBy(predicate: (t: T, index?: number) => boolean): T[][]
@@ -14,6 +16,14 @@ declare global {
 
 String.prototype.reversed = function (): string {
     return this.split("").reverse().join("")
+}
+
+String.prototype.numbers = function (): number[] {
+    return Array.from(this.matchAll(/\d+/g)).map(m => toInt(m[0]))
+}
+
+String.prototype.toNumber = function (): number {
+    return parseInt(this, 10)
 }
 
 Array.prototype.chunkedBy = function <T>(predicate: (item: T, index?: number) => boolean): T[][] {
