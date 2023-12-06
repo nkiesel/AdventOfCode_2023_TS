@@ -1,4 +1,4 @@
-import {add, readData, toInt} from '../utils'
+import {plus, readData, toInt} from '../utils'
 
 const sample: string[] = `
 Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
@@ -41,7 +41,7 @@ function part1(input: string[]): number {
     return parse(input)
         .filter((g) => g.reveals.every((r) => r.red <= 12 && r.green <= 13 && r.blue <= 14))
         .map((g) => g.id)
-        .reduce(add)
+        .reduce(plus)
 }
 
 function part2(input: string[]): number {
@@ -51,7 +51,7 @@ function part2(input: string[]): number {
             * Math.max(...g.reveals.map((r) => r.green))
             * Math.max(...g.reveals.map((r) => r.blue))
         )
-        .reduce(add)
+        .reduce(plus)
 }
 
 describe('Day 2', () => {
