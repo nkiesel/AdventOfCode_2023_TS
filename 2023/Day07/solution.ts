@@ -1,4 +1,4 @@
-import {plus, readData, toInt} from '../utils'
+import { plus, readData, toInt } from '../utils'
 
 const sample = [
     '32T3K 765',
@@ -19,65 +19,70 @@ const Type = {
 }
 
 class Hand {
-    private cards: Record<string, number> = {}
-    private jokers = 0
-    private type
+    private readonly type: number
+    private readonly value: number
 
     constructor(private hand: string, public bid: number, private joker: boolean) {
+        this.type = this.getType(hand)
+        this.value = this.getValue(hand)
+    }
+
+    private getType(hand: string): number {
+        const cards: Record<string, number> = {}
+        let jokers = 0
         for (let i = 0; i < hand.length; i++) {
             const h = hand.charAt(i)
             if (this.joker && h === 'J') {
-                this.jokers++
+                jokers++
             } else {
-                this.cards[h] = (this.cards[h] || 0) + 1
+                cards[h] = (cards[h] ?? 0) + 1
             }
         }
-
-        const groups = Object.keys(this.cards).length
-        if (groups === 1) {
-            this.type = Type.FIVE_OF_A_KIND
-        } else {
-            const counts = Object.values(this.cards)
-            switch (this.jokers) {
-                case 5:
-                case 4:
-                    this.type = Type.FIVE_OF_A_KIND
-                    break
-                case 3:
-                    this.type = Type.FOUR_OF_A_KIND
-                    break
-                case 2:
-                    if (groups === 2) this.type = Type.FOUR_OF_A_KIND
-                    else this.type = Type.THREE_OF_A_KIND
-                    break
-                case 1:
-                    if (counts.includes(3)) this.type = Type.FOUR_OF_A_KIND
-                    else if (groups === 2) this.type = Type.FULL_HOUSE
-                    else if (counts.includes(2)) this.type = Type.THREE_OF_A_KIND
-                    else if (groups === 3) this.type = Type.TWO_PAIRS
-                    else this.type = Type.ONE_PAIR
-                    break
-                default:
-                    if (counts.includes(4)) this.type = Type.FOUR_OF_A_KIND
-                    else if (groups === 2) this.type = Type.FULL_HOUSE
-                    else if (counts.includes(3)) this.type = Type.THREE_OF_A_KIND
-                    else if (counts.filter(c => c == 2).length === 2) this.type = Type.TWO_PAIRS
-                    else if (groups === 4) this.type = Type.ONE_PAIR
-                    else this.type = Type.HIGH_CARD
-                    break
-            }
+        const grouped = Object.values(cards).sort((a, b) => b - a).join('')
+        switch (jokers) {
+            case 5: return Type.FIVE_OF_A_KIND
+            case 4: return Type.FIVE_OF_A_KIND
+            case 3:
+                switch (grouped) {
+                    case '2': return Type.FIVE_OF_A_KIND
+                    default: return Type.FOUR_OF_A_KIND
+                }
+            case 2:
+                switch (grouped) {
+                    case '3': return Type.FIVE_OF_A_KIND
+                    case '21': return Type.FOUR_OF_A_KIND
+                    default: return Type.THREE_OF_A_KIND
+                }
+            case 1:
+                switch (grouped) {
+                    case '4': return Type.FIVE_OF_A_KIND
+                    case '31': return Type.FOUR_OF_A_KIND
+                    case '22': return Type.FULL_HOUSE
+                    case '211': return Type.THREE_OF_A_KIND
+                    default: return Type.ONE_PAIR
+                }
+            default:
+                switch (grouped) {
+                    case '5': return Type.FIVE_OF_A_KIND
+                    case '41': return Type.FOUR_OF_A_KIND
+                    case '32': return Type.FULL_HOUSE
+                    case '311': return Type.THREE_OF_A_KIND
+                    case '221': return Type.TWO_PAIRS
+                    case '2111': return Type.ONE_PAIR
+                    default: return Type.HIGH_CARD
+                }
         }
     }
 
-    public compare(other: Hand): number {
-        if (this.type !== other.type) return this.type - other.type
 
-        const order = this.joker ? 'AKQT98765432J' : 'AKQJT98765432'
-        for (let i = 0; i < this.hand.length; i++) {
-            const c = order.indexOf(this.hand.charAt(i)) - order.indexOf(other.hand.charAt(i))
-            if (c != 0) return -c
-        }
-        return 0
+    private getValue(hand: string) {
+        const order = (this.joker ? 'AKQT98765432J' : 'AKQJT98765432').reversed()
+        return hand.split('').reduce((acc , c) => acc * order.length + order.indexOf(c), 1)
+    }
+
+    public compare(other: Hand): number {
+        const c = this.type - other.type
+        return c !== 0 ? c : this.value - other.value
     }
 }
 
