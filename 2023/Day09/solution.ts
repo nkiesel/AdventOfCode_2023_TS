@@ -6,20 +6,13 @@ const sample: string[] = `
 10 13 16 21 30 45
 `.trim().split('\n')
 
-function predictNextValue(start: number[]): number {
-    let row = start
+function predictNextValue(row: number[]): number {
     let nextValue = 0
     while (row.some((n) => n !== 0)) {
-        nextValue += row.at(-1)
-        row = delta(row)
+        for (let i = 0; i < row.length - 1; i++) row[i] = row[i + 1] - row[i]
+        nextValue += row.pop()
     }
     return nextValue
-}
-
-function delta(row: number[]): number[] {
-    const d: number[] = []
-    for (let i = 0; i < row.length - 1; i++) d.push(row[i + 1] - row[i])
-    return d
 }
 
 function part1(input: string[]): number {

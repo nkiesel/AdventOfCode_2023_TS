@@ -22,5 +22,5 @@ package-lock.json
 202*/Day*/input
 
 # Idea
-/.idea
+.idea/
 
