@@ -5,7 +5,7 @@ export {}
 
 declare global {
     interface String {
-        reversed(): string
+        reverse(): string
         numbers(): number[]
         toNumber(): number
     }
@@ -14,7 +14,7 @@ declare global {
     }
 }
 
-String.prototype.reversed = function (): string {
+String.prototype.reverse = function (): string {
     return this.split("").reverse().join("")
 }
 
