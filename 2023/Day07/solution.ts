@@ -76,7 +76,7 @@ class Hand {
 
 
     private getValue(hand: string) {
-        const order = (this.joker ? 'AKQT98765432J' : 'AKQJT98765432').reversed()
+        const order = (this.joker ? 'AKQT98765432J' : 'AKQJT98765432').reverse()
         return hand.split('').reduce((acc , c) => acc * order.length + order.indexOf(c), 1)
     }
 

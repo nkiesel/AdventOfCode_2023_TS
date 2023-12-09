@@ -48,11 +48,11 @@ function three(input: string[], withLetters: boolean): number {
 
     const pattern = Object.keys(map).join("|")
     const p1 = new RegExp(pattern)
-    const p2 = new RegExp(pattern.reversed())
+    const p2 = new RegExp(pattern.reverse())
 
     function calibration(line: string): number {
         const first = map[line.match(p1)![0]]!
-        const last = map[line.reversed().match(p2)![0].reversed()]!
+        const last = map[line.reverse().match(p2)![0].reverse()]!
         return first * 10 + last
     }
 
@@ -77,6 +77,6 @@ describe('Day 1', () => {
 /*
 This was converted from an earlier Kotlin version that also used regexes. The trick for finding the last match I
 use here is to reverse both the line and the pattern and then use the first match (which again must be reversed).
-I was surprised that `String.reversed()` is neither available in standard libs nor in Lodash. Thus, added the
+I was surprised that `String.reverse()` is neither available in standard libs nor in Lodash. Thus, added the
 recommended implementation found by googling as a String prototype function.
 */
