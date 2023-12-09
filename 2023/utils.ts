@@ -19,7 +19,7 @@ String.prototype.reversed = function (): string {
 }
 
 String.prototype.numbers = function (): number[] {
-    return Array.from(this.matchAll(/\d+/g)).map(m => toInt(m[0]))
+    return Array.from(this.matchAll(/-?\d+/g)).map(m => toInt(m[0]))
 }
 
 String.prototype.toNumber = function (): number {
